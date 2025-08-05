@@ -61,11 +61,14 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/users/me/artworks`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/users/me/artworks`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         const data = await res.json();
         setArtworks(data.result);
       } catch (err) {

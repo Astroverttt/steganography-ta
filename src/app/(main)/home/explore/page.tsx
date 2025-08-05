@@ -21,7 +21,9 @@ const ExplorePage = () => {
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/explores/explore`);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/explores/explore`
+        );
         const data = await res.json();
         setArtworks(data.result);
       } catch (err) {

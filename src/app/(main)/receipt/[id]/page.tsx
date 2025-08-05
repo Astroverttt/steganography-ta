@@ -31,7 +31,7 @@ const ReceiptDetailPage: React.FC = () => {
   const [loadingWatermark, setLoadingWatermark] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const API_BASE_URL = "http://localhost:8000";
+  const API_BASE_URL = "35.197.149.115";
 
   const getFullUrl = (path: string): string => {
     if (path.startsWith("http://") || path.startsWith("https://")) {
