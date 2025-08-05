@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import LoginImage from "@/assets/image/login_image.png";
 import GoogleLogo from "@/assets/logo/google_logo.png";
 
 export default function LoginPage() {
@@ -71,7 +70,7 @@ export default function LoginPage() {
         <Image
           width={400}
           height={400}
-          src={LoginImage.src}
+          src={"/login_image.png"}
           alt="F1 Racing Car"
           className="fixed w-full h-screen 2xl:static 2xl:h-full object-cover"
         />
