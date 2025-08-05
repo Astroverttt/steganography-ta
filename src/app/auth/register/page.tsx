@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +28,7 @@ export default function LoginPage() {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/register`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -50,7 +50,7 @@ export default function LoginPage() {
         formData.append("file", profilePicture);
 
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/upload-profile-picture`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${userId}/upload-profile-picture`,
           {
             method: "POST",
             body: formData,
