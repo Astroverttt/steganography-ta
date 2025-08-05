@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import GoogleLogo from "@/assets/logo/google_logo.png";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -59,7 +59,7 @@ export default function LoginPage() {
       }
 
       router.push("/");
-    } catch (err) {
+    } catch {
       setError("Terjadi kesalahan jaringan.");
     }
   };
@@ -177,9 +177,12 @@ export default function LoginPage() {
             </button> */}
             <p className="text-center text-xs font-normal">
               Already have an account?{" "}
-              <a href="/" className="text-[#007AFF] hover:underline transition">
+              <Link
+                href="/"
+                className="text-[#007AFF] hover:underline transition"
+              >
                 Sign in now
-              </a>
+              </Link>
             </p>
           </div>
         </div>

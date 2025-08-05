@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { FaHeart } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -41,20 +40,6 @@ const ExplorePage = () => {
       <p className="text-center text-gray-500 mb-6">
         Join the community of creative digital artists
       </p>
-
-      {/* Search bar */}
-      {/* <div className="flex justify-center mb-6">
-          <div className="flex border rounded-full overflow-hidden shadow-sm w-[300px]">
-            <input
-              type="text"
-              placeholder="What are you looking for?"
-              className="flex-grow px-3 py-2 outline-none"
-            />
-            <button className="bg-pink-500 text-white px-4 text-sm">
-              Shot ▼
-            </button>
-          </div>
-        </div> */}
 
       {/* Filter buttons */}
       <div className="flex justify-center flex-wrap gap-2 mb-10">

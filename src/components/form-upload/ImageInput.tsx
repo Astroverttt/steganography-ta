@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import Image from "next/image";
+import NextImage from "next/image";
 import React, { useRef } from "react";
 import { TbUpload } from "react-icons/tb";
 
@@ -22,7 +22,7 @@ export const ImageInput = ({
       const reader = new FileReader();
 
       reader.onload = () => {
-        const img = new Image();
+        const img = document.createElement("img");
         img.onload = () => {
           const canvas = document.createElement("canvas");
           canvas.width = img.width;
@@ -62,7 +62,7 @@ export const ImageInput = ({
 
   return (
     <div className="p-4 space-y-2 border border-gray-300 rounded-xl">
-      <div className="flex justify-between items-center ">
+      <div className="flex justify-between items-center">
         <label
           htmlFor="artwork_image"
           className="w-max text-sm xl:text-base font-normal"
@@ -73,14 +73,12 @@ export const ImageInput = ({
           <span className="font-light text-xs xl:text-sm text-gray-400">
             Maks. 1 file tipe zip
           </span>
-          {/* Ini adalah button untuk menghapus gambar yang dilampirkan */}
         </div>
       </div>
+
       {preview ? (
-        <div
-          className={clsx("w-full", preview ? "" : "border border-gray-300")}
-        >
-          <Image
+        <div className="w-full">
+          <NextImage
             width={400}
             height={400}
             src={preview}
@@ -109,6 +107,7 @@ export const ImageInput = ({
           </div>
         </label>
       )}
+
       <div className="flex justify-center">
         <button
           type="button"
@@ -121,6 +120,7 @@ export const ImageInput = ({
           Delete Image
         </button>
       </div>
+
       <input
         id="artwork_image"
         ref={fileInputRef}
@@ -132,14 +132,3 @@ export const ImageInput = ({
     </div>
   );
 };
-
-{
-  /* {preview && (
-  <button
-    onClick={handleRemove}
-    className="flex w-7 h-7 bg-red-500 rounded-lg cursor-pointer"
-  >
-    <MdDeleteOutline className="mx-auto my-auto text-xl text-white" />
-  </button>
-)} */
-}

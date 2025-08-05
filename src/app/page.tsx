@@ -1,26 +1,19 @@
 "use client";
 
-import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import GoogleLogo from "@/assets/logo/google_logo.png";
 
 export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
-  };
-
-  const activeRememberMe = () => {
-    setRememberMe((prev) => !prev);
   };
 
   const handleLogin = async () => {
@@ -132,7 +125,7 @@ export default function LoginPage() {
           <hr className="border-gray-300 mb-8" />
           <div className="space-y-6">
             <p className="text-center text-xs font-normal">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <a
                 href="/auth/register"
                 className="text-[#007AFF] hover:underline transition"

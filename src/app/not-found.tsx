@@ -1,8 +1,6 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import Group11 from "@/assets/image/Group11.png";
 
 export default function NotFound() {
   const router = useRouter();

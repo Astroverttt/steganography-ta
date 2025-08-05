@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import Image from "next/image";
-import { Navbar } from "@/components/general/Navbar";
 
 interface Artwork {
   id: string;
@@ -19,7 +18,6 @@ interface Artwork {
 
 export default function DetailArtworkPage() {
   const params = useParams();
-  const searchParams = useSearchParams();
   let id = "";
   if (params?.id) {
     id = Array.isArray(params.id) ? params.id[0] : params.id;

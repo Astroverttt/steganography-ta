@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/router";
-import { useState, useEffect, useCallback } from "react";
+import { useParams } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 
 interface ReceiptDetail {
@@ -21,31 +21,27 @@ interface WatermarkResult {
   creator_message: string;
 }
 
-export const DETAIL_PAGE = {
-	title: "Abstract City",
-	username: "Nabiha",
-	photoProfile: "/profile.png",
-	imageUrl: "/abstract.png",
-	alt: "Abstract City",
-	tags: ["Animasi", "City", "View"],
-	description:
-		"Lukisan ini merepresentasikan dinamika kehidupan urban melalui sapuan warna yang tegas dan bentuk geometris yang tidak beraturan. Setiap garis dan warna mencerminkan hiruk pikuk, ritme cepat, serta kesan modern dari sebuah kota yang terus bergerak.",
-	extracted_in: "10 detik",
-	copyright_hash: "868be242da48da8898956a9d507b23e5",
-	creator_message: "Ini pesan rahasia jangan sampai bocor ketangan amerika",
-};
-
 const ReceiptDetailPage: React.FC = () => {
-  const router = useRouter();
-  const { id: receiptId } = router.query;
-  // const receiptId = "1";
+  const params = useParams();
+  const receiptId = params?.id as string;
 
-  // const receipt = DETAIL_PAGE;
   const [receipt, setReceipt] = useState<ReceiptDetail | null>(null);
   const [watermark, setWatermark] = useState<WatermarkResult | null>(null);
   const [loadingReceipt, setLoadingReceipt] = useState(true);
   const [loadingWatermark, setLoadingWatermark] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const API_BASE_URL = "http://localhost:8000";
+
+  const getFullUrl = (path: string): string => {
+    if (path.startsWith("http://") || path.startsWith("https://")) {
+      return path;
+    }
+    if (path.startsWith("/")) {
+      return `${API_BASE_URL}${path}`;
+    }
+    return `${API_BASE_URL}/${path}`;
+  };
 
   const handleExtractWatermark = useCallback(
     async (currentReceipt: ReceiptDetail) => {
@@ -54,13 +50,13 @@ const ReceiptDetailPage: React.FC = () => {
       setWatermark(null);
 
       try {
-        const response = await fetch(currentReceipt.watermark_api, {
+        const response = await fetch(getFullUrl(currentReceipt.watermark_api), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            image_url: `${process.env.NEXT_PUBLIC_API_URL}${currentReceipt.image_url}`,
+            image_url: getFullUrl(currentReceipt.image_url),
             buyer_secret_code: currentReceipt.buyer_secret_code,
           }),
         });
@@ -80,53 +76,52 @@ const ReceiptDetailPage: React.FC = () => {
         setLoadingWatermark(false);
       }
     },
-    []
+    [API_BASE_URL]
   );
 
   useEffect(() => {
-    if (!router.isReady) return;
     if (!receiptId) return;
 
     const fetchReceiptDetail = async () => {
       setLoadingReceipt(true);
       setError(null);
 
-        try {
-          const token = localStorage.getItem("token");
-          if (!token) {
-            setError("Anda harus login untuk melihat detail pembelian.");
-            setLoadingReceipt(false);
-            return;
-          }
-
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/payments/receipt/${receiptId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail || "Gagal memuat detail pembelian.");
-          }
-
-          const data: ReceiptDetail = await response.json();
-          setReceipt(data);
-          handleExtractWatermark(data);
-        } catch (err: any) {
-          setError(
-            err.message || "Terjadi kesalahan saat memuat detail pembelian."
-          );
-        } finally {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("Anda harus login untuk melihat detail pembelian.");
           setLoadingReceipt(false);
+          return;
         }
-      };
 
-      fetchReceiptDetail();
-    }, [receiptId, process.env.NEXT_PUBLIC_API_URL, handleExtractWatermark]);
+        const response = await fetch(
+          `${API_BASE_URL}/api/payments/receipt/${receiptId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || "Gagal memuat detail pembelian.");
+        }
+
+        const data: ReceiptDetail = await response.json();
+        setReceipt(data);
+        handleExtractWatermark(data);
+      } catch (err: any) {
+        setError(
+          err.message || "Terjadi kesalahan saat memuat detail pembelian."
+        );
+      } finally {
+        setLoadingReceipt(false);
+      }
+    };
+
+    fetchReceiptDetail();
+  }, [receiptId, handleExtractWatermark, API_BASE_URL]);
 
   if (loadingReceipt) {
     return (
@@ -136,17 +131,21 @@ const ReceiptDetailPage: React.FC = () => {
     );
   }
 
+  if (error) {
+    return <p className="text-center py-10 text-red-500">{error}</p>;
+  }
+
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 text-center mb-8">
+    <div className="w-screen bg-[#f2f4f5] flex flex-col items-center">
+      <h1 className="text-2xl font-bold text-gray-800 my-3">
         Tanda Terima Pembelian
       </h1>
 
       {receipt && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white shadow-lg rounded-lg p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white shadow-lg rounded-lg p-6 max-w-6xl">
           <div className="flex items-center justify-center">
             <Image
-              src={`${process.env.NEXT_PUBLIC_API_URL}${receipt.image_url}`} // Assuming images are served from your backend
+              src={getFullUrl(receipt.image_url)}
               alt={receipt.artwork_title}
               width={600}
               height={400}
@@ -192,7 +191,7 @@ const ReceiptDetailPage: React.FC = () => {
                 <div className="text-sm text-gray-700 space-y-1">
                   <p>
                     <strong>Diekstrak dalam:</strong> {watermark.extracted_in}{" "}
-                    seconds
+                    detik
                   </p>
                   <p>
                     <strong>Hash Hak Cipta:</strong>{" "}
@@ -207,8 +206,6 @@ const ReceiptDetailPage: React.FC = () => {
                     </code>
                   </p>
                 </div>
-              ) : error ? (
-                <p className="text-red-500 text-sm mt-2">{error}</p>
               ) : null}
             </div>
 

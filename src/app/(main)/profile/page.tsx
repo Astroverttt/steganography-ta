@@ -22,7 +22,6 @@ const ProfilePage = () => {
   const router = useRouter();
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<any>(null);
   const handleNavigateToUploadPage = () => {
     router.push("/upload");
@@ -49,7 +48,6 @@ const ProfilePage = () => {
         setData(data);
       } catch (err: any) {
         console.error("Error fetching artwork:", err);
-        setError(err.message || "Terjadi kesalahan saat mengambil data.");
       } finally {
         setLoading(false);
       }

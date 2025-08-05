@@ -1,9 +1,9 @@
 "use client";
 
-import clsx from "clsx";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { FaBars } from "react-icons/fa6";
 
 interface User {
@@ -94,11 +94,15 @@ export const Navbar = ({ onClick }: NavbarProps) => {
               <div className="flex items-center gap-4">
                 <Link href="/profile">
                   {user.profile_picture ? (
-                    <img
-                      src={user.profile_picture}
-                      alt={`${user.name || user.username}'s profile`}
-                      className="w-12 h-12 rounded-full object-cover cursor-pointer border border-gray-300"
-                    />
+                    <div className="w-12 h-12 relative rounded-full overflow-hidden border border-gray-300 cursor-pointer">
+                      <Image
+                        src={user.profile_picture}
+                        alt={`${user.name || user.username}'s profile`}
+                        fill
+                        className="object-cover"
+                        sizes="48px"
+                      />
+                    </div>
                   ) : (
                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#CCCDFF] to-[#A903C7] cursor-pointer border border-gray-300"></div>
                   )}

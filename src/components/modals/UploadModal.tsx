@@ -2,11 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ModalLayout } from "@/layout/ModalLayout";
 import { Button } from "@/components/form-upload/Button";
-import { type category } from "@/models/artworkCategories";
 import { IoClose } from "react-icons/io5";
 import Image from "next/image";
 import { license } from "@/models/artworkLicenses";
-import { object } from "framer-motion/client";
 
 interface UploadModalProps {
   isOpen: boolean;
@@ -76,32 +74,8 @@ export const UploadModal = ({
                   )}
                 </div>
               </div>
-              <div className="space-y-2">
-                {/* <h3 className="font-light text-base">Sub Title</h3> */}
-                {/* <div className="w-full min-h-11 px-3 flex items-center border rounded-lg">
-                  {formData.subTitle === "" ? (
-                    <span className="font-normal text-base text-gray-400">
-                      No Sub Title
-                    </span>
-                  ) : (
-                    <span>{formData.title}</span>
-                  )}
-                </div> */}
-              </div>
-              <div className="space-y-2">
-                {/* <h3 className="font-light text-base">Category</h3> */}
-                {/* <div className="w-full min-h-11 px-3 flex items-center border rounded-lg">
-                  {formData.category.length > 0 ? (
-                    <span>
-                      {formData.category.map((c) => [name]).join(", ")}
-                    </span>
-                  ) : (
-                    <span className="font-normal text-base text-gray-400">
-                      No Category Selected
-                    </span>
-                  )}
-                </div> */}
-              </div>
+              <div className="space-y-2"></div>
+              <div className="space-y-2"></div>
               <div className="space-y-2">
                 <h3 className="font-light text-base">Description</h3>
                 <div className="w-full min-h-11 px-3 py-2 flex items-center border rounded-lg overflow-y-auto">
