@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import BASE_URL from "../../../../../../config";
 
 interface Artwork {
   id: string;
@@ -37,7 +38,7 @@ export default function DetailArtworkPage() {
 
     const fetchArtwork = async () => {
       try {
-        const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/artworks/${id}`;
+        const apiUrl = `${BASE_URL}/api/artworks/${id}`;
         const res = await fetch(apiUrl);
 
         if (!res.ok) {
@@ -65,7 +66,7 @@ export default function DetailArtworkPage() {
 
     const fullImageUrl = artwork.image_url.startsWith("http")
       ? artwork.image_url
-      : `${process.env.NEXT_PUBLIC_API_BASE_URL}${artwork.image_url}`;
+      : `${BASE_URL}${artwork.image_url}`;
 
     const img = new window.Image();
     img.src = fullImageUrl;
@@ -92,22 +93,19 @@ export default function DetailArtworkPage() {
     const artworkDetailUrlBase = `${currentOrigin}/home/detail-artwork/${artwork.id}`;
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/payments/initiate-payment`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            artwork_id: artwork.id,
-            success_redirect_url: successRedirectUrl,
-            error_redirect_url: artworkDetailUrlBase,
-            pending_redirect_url: artworkDetailUrlBase,
-          }),
-        }
-      );
+      const res = await fetch(`${BASE_URL}/api/payments/initiate-payment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          artwork_id: artwork.id,
+          success_redirect_url: successRedirectUrl,
+          error_redirect_url: artworkDetailUrlBase,
+          pending_redirect_url: artworkDetailUrlBase,
+        }),
+      });
 
       if (!res.ok) {
         const errData = await res.json();
@@ -157,7 +155,7 @@ export default function DetailArtworkPage() {
 
   const fullImageUrl = artwork.image_url.startsWith("http")
     ? artwork.image_url
-    : `${process.env.NEXT_PUBLIC_API_BASE_URL}${artwork.image_url}`;
+    : `${BASE_URL}${artwork.image_url}`;
 
   const displayUsername = artwork.username ?? "Unknown Artist";
   const displayTitle = artwork.title ?? "Untitled Artwork";

@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
+import BASE_URL from "../../../../../config";
 
 interface ReceiptDetail {
   receipt_id: string;
@@ -31,16 +32,14 @@ const ReceiptDetailPage: React.FC = () => {
   const [loadingWatermark, setLoadingWatermark] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const API_BASE_URL = "35.197.149.115";
-
   const getFullUrl = (path: string): string => {
     if (path.startsWith("http://") || path.startsWith("https://")) {
       return path;
     }
     if (path.startsWith("/")) {
-      return `${API_BASE_URL}${path}`;
+      return `${BASE_URL}${path}`;
     }
-    return `${API_BASE_URL}/${path}`;
+    return `${BASE_URL}/${path}`;
   };
 
   const handleExtractWatermark = useCallback(
@@ -76,7 +75,7 @@ const ReceiptDetailPage: React.FC = () => {
         setLoadingWatermark(false);
       }
     },
-    [API_BASE_URL]
+    [BASE_URL]
   );
 
   useEffect(() => {
@@ -95,7 +94,7 @@ const ReceiptDetailPage: React.FC = () => {
         }
 
         const response = await fetch(
-          `${API_BASE_URL}/api/payments/receipt/${receiptId}`,
+          `${BASE_URL}/api/payments/receipt/${receiptId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -121,7 +120,7 @@ const ReceiptDetailPage: React.FC = () => {
     };
 
     fetchReceiptDetail();
-  }, [receiptId, handleExtractWatermark, API_BASE_URL]);
+  }, [receiptId, handleExtractWatermark, BASE_URL]);
 
   if (loadingReceipt) {
     return (

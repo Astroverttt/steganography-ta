@@ -7,6 +7,7 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import { useRouter } from "next/navigation";
+import BASE_URL from "../../../../config";
 
 export default function UploadArtworkPage() {
   const [files, setFiles] = useState<File[]>([]);
@@ -65,16 +66,13 @@ export default function UploadArtworkPage() {
         return;
       }
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/artwork/uploads`,
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}` || "",
-          },
-        }
-      );
+      const res = await fetch(`${BASE_URL}/api/artwork/uploads`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}` || "",
+        },
+      });
 
       if (!res.ok) {
         const errorText = await res.text();

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import BASE_URL from "../../../../../config";
 
 interface Artwork {
   id: string;
@@ -21,9 +22,7 @@ const ExplorePage = () => {
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/explores/explore`
-        );
+        const res = await fetch(`${BASE_URL}/api/explores/explore`);
         const data = await res.json();
         setArtworks(data.result);
       } catch (err) {

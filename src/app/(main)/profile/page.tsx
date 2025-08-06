@@ -6,6 +6,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";
 import { FiUpload } from "react-icons/fi";
+import BASE_URL from "../../../../config";
 
 interface Artwork {
   id: string;
@@ -30,7 +31,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchArtwork = async () => {
       try {
-        const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/me`;
+        const apiUrl = `${BASE_URL}/api/users/me`;
         const res = await fetch(apiUrl, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -61,14 +62,11 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/users/me/artworks`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const res = await fetch(`${BASE_URL}/api/users/me/artworks`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         const data = await res.json();
         setArtworks(data.result);
       } catch (err) {
