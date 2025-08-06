@@ -28,7 +28,6 @@ export const NavbarModal = ({ isOpen, onClose }: NavbarModalProps) => {
   const router = useRouter();
   const [isFocused, setIsFocused] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
   const handleNavigateToProfilePage = () => {
     router.push("/profile");
@@ -36,12 +35,10 @@ export const NavbarModal = ({ isOpen, onClose }: NavbarModalProps) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      setIsLoadingUser(true);
       try {
         const token = localStorage.getItem("token");
         if (!token) {
           setUser(null);
-          setIsLoadingUser(false);
           return;
         }
 
@@ -73,7 +70,6 @@ export const NavbarModal = ({ isOpen, onClose }: NavbarModalProps) => {
         console.error("Error fetching user data:", error);
         setUser(null);
       } finally {
-        setIsLoadingUser(false);
       }
     };
 
