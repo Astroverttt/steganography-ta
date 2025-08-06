@@ -41,7 +41,7 @@ export const Navbar = ({ onClick }: NavbarProps) => {
         const API_BASE_URL =
           process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000";
 
-        const response = await fetch(`${BASE_URL}/api/users/me`, {
+        const response = await fetch(`${API_BASE_URL}/api/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
