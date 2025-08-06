@@ -194,9 +194,6 @@ export default function UploadArtworkPage() {
               <Button type="button" variant="ghost">
                 Close
               </Button>
-              <Button type="button" variant="ghost">
-                Save as Draft
-              </Button>
               <Button type="submit">Next</Button>
             </div>
           </div>
