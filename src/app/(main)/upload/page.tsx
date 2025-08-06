@@ -30,7 +30,7 @@ export default function UploadArtworkPage() {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
-      "image/*": ["image/jpeg", "image/png", "image/jpg"],
+      "image/*": ["image/png"],
     },
     multiple: false,
   });
