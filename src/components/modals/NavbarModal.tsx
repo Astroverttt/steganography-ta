@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ModalLayout } from "@/layout/ModalLayout";
 import { navbarLinks } from "@/models/navbarLinks";
@@ -15,13 +15,70 @@ interface NavbarModalProps {
   onClose: () => void;
 }
 
+interface User {
+  id: string;
+  username: string;
+  name: string;
+  email: string;
+  profile_picture: string | null;
+  location?: string;
+}
+
 export const NavbarModal = ({ isOpen, onClose }: NavbarModalProps) => {
   const router = useRouter();
   const [isFocused, setIsFocused] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
   const handleNavigateToProfilePage = () => {
     router.push("/profile");
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setIsLoadingUser(true);
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setUser(null);
+          setIsLoadingUser(false);
+          return;
+        }
+
+        const API_BASE_URL =
+          process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000";
+
+        const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.status === 401 || response.status === 403) {
+          localStorage.removeItem("token");
+          setUser(null);
+          console.warn("Authentication failed, token removed.");
+          return;
+        }
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || "Gagal mengambil data user");
+        }
+
+        const data: User = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setUser(null);
+      } finally {
+        setIsLoadingUser(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   return (
     <ModalLayout isOpen={isOpen} onClose={onClose}>
@@ -56,8 +113,7 @@ export const NavbarModal = ({ isOpen, onClose }: NavbarModalProps) => {
 
             {/* Name + Location */}
             <div className="space-y-0.5" onClick={handleNavigateToProfilePage}>
-              <h2 className="font-semibold text-md text-black">Artist Name</h2>
-              <span className="font-normal text-sm">Location</span>
+              <h2 className="font-semibold text-md text-black">{user?.name}</h2>
             </div>
           </div>
 

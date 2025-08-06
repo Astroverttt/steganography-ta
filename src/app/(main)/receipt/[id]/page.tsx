@@ -49,16 +49,20 @@ const ReceiptDetailPage: React.FC = () => {
       setWatermark(null);
 
       try {
-        const response = await fetch(getFullUrl(currentReceipt.watermark_api), {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            image_url: getFullUrl(currentReceipt.image_url),
-            buyer_secret_code: currentReceipt.buyer_secret_code,
-          }),
-        });
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_BASE_URL + "/api/extract/extract-watermark",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              image_url:
+                process.env.NEXT_PUBLIC_BASE_URL + currentReceipt.image_url,
+              buyer_secret_code: currentReceipt.buyer_secret_code,
+            }),
+          }
+        );
 
         if (!response.ok) {
           const errorData = await response.json();

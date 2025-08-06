@@ -4,9 +4,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http", // Atau 'https'
-        hostname: "localhost", // Atau 'your-cdn.com', dll.
-        port: "8000", // Port backend Anda jika localhost
+        protocol: "https", // Atau 'https'
+        hostname: "reverse-proxy-587824585699.us-central1.run.app", // Atau 'your-cdn.com', dll.
         pathname: "/static/**", // Path di server Anda
       },
     ],

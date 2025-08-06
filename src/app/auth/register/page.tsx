@@ -48,7 +48,7 @@ export default function RegisterPage() {
         formData.append("file", profilePicture);
 
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${userId}/upload-profile-picture`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/users/${userId}/upload-profile-picture`,
           {
             method: "POST",
             body: formData,

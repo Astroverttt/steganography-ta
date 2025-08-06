@@ -37,6 +37,7 @@ export default function LoginPage() {
       if (data.access_token) {
         localStorage.setItem("token", data.access_token);
         router.push("/home/explore");
+        console.log("Token:", data.access_token);
       } else {
         setErrorMsg("Token tidak ditemukan.");
       }

@@ -73,7 +73,7 @@ const ExplorePage = () => {
               <Image
                 width={400}
                 height={400}
-                src={"http://localhost:8000" + artwork.image_url}
+                src={process.env.NEXT_PUBLIC_BASE_URL + artwork.image_url}
                 alt={artwork.title}
                 className="w-full h-[180px] object-cover rounded-lg shadow"
               />
@@ -81,30 +81,6 @@ const ExplorePage = () => {
 
             <div className="mt-2 flex flex-col text-sm">
               <span className="font-semibold">{artwork.title}</span>
-              {/* <span className="text-gray-500 text-xs">
-                by @{artwork.user?.username || "username"}
-              </span> */}
-
-              {/* Profile info
-              {artwork.user?.username && (
-                <div className="flex items-center gap-2 mt-1">
-                  <Image
-                    width={12}
-                    height={12}
-                    src={
-                      artwork.user.profile_picture_url
-                        ? process.env.NEXT_PUBLIC_API_URL +
-                          artwork.user.profile_picture_url
-                        : "/default-avatar.png"
-                    }
-                    alt="Profile"
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <span className="text-blue-600 hover:underline text-xs">
-                    @{artwork.user.username}
-                  </span>
-                </div>
-              )} */}
             </div>
           </div>
         ))}

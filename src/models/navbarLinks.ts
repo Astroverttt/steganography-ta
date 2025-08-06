@@ -4,13 +4,7 @@ export interface link {
   url: string;
 }
 
-const rawLinks = [
-  { name: "Explore", url: "/home/explore" },
-  { name: "Categories", url: "/home/categories" },
-  { name: "Artist", url: "/home/artist" },
-  { name: "About Us", url: "/home/about" },
-  { name: "Contact", url: "/home/contact" },
-];
+const rawLinks = [{ name: "Explore", url: "/home/explore" }];
 
 export const navbarLinks: link[] = rawLinks.map((link, index) => ({
   id: index + 1,

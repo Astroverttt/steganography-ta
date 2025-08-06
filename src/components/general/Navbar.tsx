@@ -1,10 +1,12 @@
 "use client";
 
+import clsx from "clsx";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { FaBars } from "react-icons/fa6";
+import { navbarLinks } from "@/models/navbarLinks";
 
 interface User {
   id: string;
@@ -37,7 +39,7 @@ export const Navbar = ({ onClick }: NavbarProps) => {
         }
 
         const API_BASE_URL =
-          process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+          process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000";
 
         const response = await fetch(`${API_BASE_URL}/api/users/me`, {
           headers: {
@@ -83,7 +85,24 @@ export const Navbar = ({ onClick }: NavbarProps) => {
       {/* Navbar */}
       <nav className="sticky top-0 z-50 w-full px-4 xl:px-8 py-4 flex items-center bg-gray-100/60 backdrop-blur-sm border-b border-gray-200">
         <div className="flex w-full justify-between items-center">
-          <div></div>
+          <div className="flex gap-4 items-center">
+            {navbarLinks.map((link) => (
+              <div key={link.id} className="flex items-center">
+                {link.id !== 1 && (
+                  <div className="mr-4 w-px h-6 bg-gray-400"></div>
+                )}
+                <a
+                  href={link.url}
+                  className={clsx(
+                    "text-base",
+                    link.id !== 1 ? "text-[#576974]" : "font-semibold"
+                  )}
+                >
+                  {link.name}
+                </a>
+              </div>
+            ))}
+          </div>
           <button type="button" onClick={onClick} className="xl:hidden">
             <FaBars className="text-xl cursor-pointer" />
           </button>
