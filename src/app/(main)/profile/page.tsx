@@ -215,19 +215,17 @@ const ProfilePage = () => {
                 />
               </Link>
 
-                  <div className="mt-2 flex flex-col text-sm">
-                    <span className="font-semibold truncate" title={artwork.title}>
-                      {artwork.title}
-                    </span>
-                    <span className="text-gray-500 text-xs">
-                      {artwork.likes} likes
-                    </span>
-                  </div>
-                </div>
-              ))}
+              <div className="mt-2 flex flex-col text-sm">
+                <span className="font-semibold truncate" title={artwork.title}>
+                  {artwork.title}
+                </span>
+                <span className="text-gray-500 text-xs">
+                  {artwork.likes} likes
+                </span>
+              </div>
             </div>
-          </div>
-        )}
+          ))}
+        </div>
       </div>
     </>
   );
