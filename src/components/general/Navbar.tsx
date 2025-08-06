@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { FaBars } from "react-icons/fa6";
+import BASE_URL from "../../../config";
 
 interface User {
   id: string;
@@ -36,10 +37,8 @@ export const Navbar = ({ onClick }: NavbarProps) => {
           return;
         }
 
-        const API_BASE_URL =
-          process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
 
-        const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+        const response = await fetch(`${BASE_URL}/api/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",

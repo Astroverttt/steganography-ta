@@ -1,16 +1,24 @@
-import { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http", // Atau 'https'
-        hostname: "localhost", // Atau 'your-cdn.com', dll.
-        port: "8000", // Port backend Anda jika localhost
-        pathname: "/static/**", // Path di server Anda
+        protocol: 'https',
+        hostname: 'reverse-proxy-587824585699.us-central1.run.app',
+        port: '',
+        pathname: '/static/**',
+      },
+      // Tambahkan domain lain jika diperlukan
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8000',
+        pathname: '/static/**',
       },
     ],
   },
+  // Konfigurasi lain jika ada
 };
 
-export default nextConfig;
+module.exports = nextConfig;
