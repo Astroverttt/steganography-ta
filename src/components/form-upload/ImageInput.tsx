@@ -125,7 +125,7 @@ export const ImageInput = ({
         id="artwork_image"
         ref={fileInputRef}
         type="file"
-        accept="image/png, image/jpg, image/jpeg"
+        accept="image/png"
         className="hidden"
         onChange={handleFileChange}
       />
