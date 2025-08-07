@@ -49,15 +49,17 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen relative flex flex-col 2xl:flex-row">
-      <div className="relative max-h-screen">
+      <div className="relative w-full h-screen 2xl:h-auto">
         <Image
-          src={"/login_image.png"}
+          src="/login_page.png"
           alt="Login Image"
-          width={1920}
-          height={1000}
-          className="fixed w-full h-screen 2xl:static 2xl:h-full object-cover"
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+          priority
         />
       </div>
+
       <div className="absolute bottom-0 flex justify-center items-start px-8 pt-8 w-full h-10/12 rounded-t-xl sm:bottom-1/2 sm:translate-y-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:w-[456px] sm:h-max sm:py-8 sm:rounded-xl 2xl:static 2xl:flex 2xl:translate-x-0 2xl:translate-y-0 2xl:items-center 2xl:h-screen 2xl:rounded-none 2xl:px-8 2xl:py-0 2xl:w-[950px] overflow-y-auto bg-white">
         <div className="w-full">
           <h1 className="text-lg sm:text-xl font-semibold mb-6">

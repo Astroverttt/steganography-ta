@@ -1,12 +1,15 @@
 "use client";
+
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { useRouter } from "next/navigation";
+
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
-import { useRouter } from "next/navigation";
+
 import BASE_URL from "../../../../config";
 
 export default function UploadArtworkPage() {
@@ -29,9 +32,7 @@ export default function UploadArtworkPage() {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: {
-      "image/*": ["image/png"],
-    },
+    accept: { "image/*": ["image/png"] },
     multiple: false,
   });
 
@@ -81,6 +82,7 @@ export default function UploadArtworkPage() {
 
       alert("Artwork uploaded successfully!");
 
+      // Reset form
       setTitle("");
       setDescription("");
       setWatermark("");
@@ -97,105 +99,108 @@ export default function UploadArtworkPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-1/2 space-y-8">
-        <title title="Upload New Artwork" />
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-8 space-y-6">
+        <h1 className="text-2xl font-semibold text-gray-800">
+          Upload New Artwork
+        </h1>
 
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm space-y-4 px-6 py-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <Input
+            id="title"
+            label="Title"
+            type="text"
+            placeholder="Abstract City"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+
+          <Input
+            id="description"
+            label="Description"
+            type="text"
+            placeholder="Describe your artwork here"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+
+          <Input
+            id="watermark"
+            label="Watermark Message"
+            type="text"
+            placeholder="This artwork is protected..."
+            value={watermark}
+            onChange={(e) => setWatermark(e.target.value)}
+            required
+          />
+
+          <Select
+            id="category"
+            label="Category"
+            options={[
+              { value: "landscape", label: "Landscape" },
+              { value: "portrait", label: "Portrait" },
+              { value: "abstract", label: "Abstract" },
+            ]}
+            placeholder="Select Category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+          />
+
+          <Select
+            id="license"
+            label="License Type"
+            options={[
+              { value: "free", label: "Free" },
+              { value: "paid", label: "Paid" },
+            ]}
+            placeholder="Select License"
+            value={license}
+            onChange={(e) => setLicense(e.target.value)}
+            required
+          />
+
+          {license === "paid" && (
             <Input
-              id="title"
-              label="Title"
-              type="text"
-              placeholder="Abstract City"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              id="price"
+              label="Price (Rupiah)"
+              type="number"
+              placeholder="e.g. 800000"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
               required
             />
+          )}
 
-            <Input
-              id="description"
-              label="Description"
-              type="text"
-              placeholder="Describe your artwork here"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            />
-
-            <Input
-              id="watermark"
-              label="Watermark Message"
-              type="text"
-              placeholder="This artwork is protected..."
-              value={watermark}
-              onChange={(e) => setWatermark(e.target.value)}
-              required
-            />
-
-            <Select
-              id="category"
-              label="Category"
-              options={[
-                { value: "landscape", label: "Landscape" },
-                { value: "portrait", label: "Portrait" },
-                { value: "abstract", label: "Abstract" },
-              ]}
-              placeholder="Select Category"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required
-            />
-
-            <Select
-              id="license"
-              label="License Type"
-              options={[
-                { value: "free", label: "Free" },
-                { value: "paid", label: "Paid" },
-              ]}
-              placeholder="Select License"
-              value={license}
-              onChange={(e) => setLicense(e.target.value)}
-              required
-            />
-
-            {license === "paid" && (
-              <Input
-                id="price"
-                label="Price (Rupiah)"
-                type="number"
-                placeholder="e.g. Rp.800000"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                required
+          <div
+            {...getRootProps()}
+            className="border-2 border-dashed border-gray-300 p-6 rounded-md text-center cursor-pointer bg-gray-100 hover:bg-gray-200 transition"
+          >
+            <input {...getInputProps()} />
+            <p className="mb-2 text-sm text-gray-500">
+              Drag and drop your image here or click to upload
+            </p>
+            <MdOutlineFileUpload className="w-8 h-8 text-gray-500 mx-auto" />
+            {preview.map((path) => (
+              <Image
+                key={path}
+                src={path}
+                width={500}
+                height={500}
+                alt="Artwork Preview"
+                className="mt-4 rounded-md"
               />
-            )}
+            ))}
+          </div>
 
-            <div
-              {...getRootProps()}
-              className="border-dashed border-2 border-gray-300 p-4 rounded-md flex flex-col items-center justify-center space-y-2 cursor-pointer"
-            >
-              <p>Drag and drop your image here or click to upload</p>
-              <MdOutlineFileUpload className="w-10 h-10 text-gray-400 rounded-full bg-gray-100 p-2" />
-              <input {...getInputProps()} />
-              {preview.map((path) => (
-                <Image
-                  key={path}
-                  src={path}
-                  width={600}
-                  height={600}
-                  alt="Uploaded artwork preview"
-                />
-              ))}
-            </div>
-
-            <div className="flex justify-between">
-              <Button type="button" variant="ghost">
-                Close
-              </Button>
-              <Button type="submit">Next</Button>
-            </div>
+          <div className="flex justify-between">
+            <Button type="button" variant="ghost">
+              Close
+            </Button>
+            <Button type="submit">Next</Button>
           </div>
         </form>
       </div>

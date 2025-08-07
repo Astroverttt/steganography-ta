@@ -146,6 +146,7 @@ const ReceiptDetailPage: React.FC = () => {
 
       {receipt && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white shadow-lg rounded-lg p-6 max-w-6xl">
+          {/* Gambar Karya */}
           <div className="flex items-center justify-center">
             <Image
               src={getFullUrl(receipt.image_url)}
@@ -156,32 +157,44 @@ const ReceiptDetailPage: React.FC = () => {
             />
           </div>
 
+          {/* Detail Pembelian */}
           <div className="flex flex-col justify-between">
             <div>
               <p className="text-gray-700 text-base mb-4">
                 Terima kasih telah membeli karya <i>{receipt.artwork_title}</i>!
               </p>
 
+              {/* Detail Pembelian */}
               <h2 className="text-xl font-semibold text-gray-800 mb-3">
                 Detail Pembelian:
               </h2>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li>
-                  <strong>Tanggal Beli:</strong>{" "}
-                  {new Date(receipt.purchase_date).toLocaleDateString("id-ID")}
-                </li>
-                <li>
-                  <strong>Harga:</strong> Rp{" "}
-                  {receipt.price.toLocaleString("id-ID")}
-                </li>
-                <li>
-                  <strong>Kode Rahasia:</strong>{" "}
-                  <code className="bg-gray-100 px-2 py-1 rounded">
-                    {receipt.buyer_secret_code}
-                  </code>
-                </li>
-              </ul>
 
+              <div className="text-sm text-gray-700 space-y-2">
+                <div className="flex">
+                  <div className="w-40 font-semibold">Tanggal Beli</div>
+                  <div>
+                    :{" "}
+                    {new Date(receipt.purchase_date).toLocaleDateString(
+                      "id-ID"
+                    )}
+                  </div>
+                </div>
+                <div className="flex">
+                  <div className="w-40 font-semibold">Harga</div>
+                  <div>: Rp {receipt.price.toLocaleString("id-ID")}</div>
+                </div>
+                <div className="flex">
+                  <div className="w-40 font-semibold">Kode Rahasia</div>
+                  <div>
+                    :{" "}
+                    <code className="bg-gray-100 px-2 py-1 rounded">
+                      {receipt.buyer_secret_code}
+                    </code>
+                  </div>
+                </div>
+              </div>
+
+              {/* Hasil Watermark */}
               <h3 className="text-lg font-semibold text-gray-800 mt-6 mb-2">
                 Hasil Watermark:
               </h3>
@@ -191,23 +204,21 @@ const ReceiptDetailPage: React.FC = () => {
                   Mengekstrak watermark...
                 </p>
               ) : watermark ? (
-                <div className="text-sm text-gray-700 space-y-1">
-                  <p>
-                    <strong>Diekstrak dalam:</strong> {watermark.extracted_in}{" "}
-                    detik
-                  </p>
-                  <p>
-                    <strong>Hash Hak Cipta:</strong>{" "}
-                    <code className="bg-gray-100 px-2 py-1 rounded">
-                      {watermark.copyright_hash}
-                    </code>
-                  </p>
-                  <p>
-                    <strong>Pesan Pembuat:</strong>{" "}
-                    <code className="bg-gray-100 px-2 py-1 rounded">
-                      {watermark.creator_message}
-                    </code>
-                  </p>
+                <div className="text-sm text-gray-700 space-y-2">
+                  <div className="flex">
+                    {/* <div className="w-40 font-semibold">Diekstrak dalam</div>
+                    <div>: {watermark.extracted_in} detik</div> */}
+                  </div>
+                  <div className="flex"></div>
+                  <div className="flex">
+                    <div className="w-40 font-semibold">Pesan Pembuat</div>
+                    <div>
+                      :{" "}
+                      <code className="bg-gray-100 px-2 py-1 rounded">
+                        {watermark.creator_message}
+                      </code>
+                    </div>
+                  </div>
                 </div>
               ) : null}
             </div>
